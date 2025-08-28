@@ -1,4 +1,4 @@
-name: check migrations
+name: check migrations 2
 
 on:
   push:

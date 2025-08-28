@@ -32,8 +32,8 @@ jobs:
               console.log(context.payload.commits)
               console.log('-----')
               
-              firstCommit=context.payload.commits[0][0].id
-              lastCommit=context.payload.commits[0][context.payload.commits[0].length - 1].id
+              firstCommit=context.payload.commits[0].id
+              lastCommit=context.payload.commits[context.payload.commits.length - 1].id
             } else if (context.eventName === 'pull_request') {
               firstCommit=context.payload.pull_request.base.sha
               lastCommit=context.payload.pull_request.head.sha

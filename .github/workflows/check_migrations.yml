@@ -27,7 +27,7 @@ jobs:
               console.log('-----')
               console.log(context.payload.commits[0])
               console.log('-----')
-              console.log(context.payload.commits[context.payload.commits[0].length - 1])
+              console.log(context.payload.commits[0][context.payload.commits[0].length - 1])
               console.log('-----')
               
               firstCommit=context.payload.commits[0][0].id

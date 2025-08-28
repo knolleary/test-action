@@ -20,27 +20,19 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process')
-            //console.log(context)
+            console.log(context)
             let firstCommit
             let lastCommit
             if (context.eventName === 'push') {
-              console.log('-----')
-              console.log(context.payload.commits[0])
-              console.log('-----')
-              console.log(context.payload.commits[context.payload.commits.length - 1])
-              console.log('-----')
-              console.log(context.payload.commits)
-              console.log('-----')
-              
-              firstCommit=context.payload.commits[0].id
-              lastCommit=context.payload.commits[context.payload.commits.length - 1].id
+              firstCommit='HEAD^1'
+              lastCommit='HEAD'
             } else if (context.eventName === 'pull_request') {
               firstCommit=context.payload.pull_request.base.sha
               lastCommit=context.payload.pull_request.head.sha
             } else {
               throw new Error('Unsupported event')
             }
-            const rawFiles = execSync(`git diff --name-only --diff-filter=d "${firstCommit}~1" "${lastCommit}"`).toString()
+            const rawFiles = execSync(`git diff --name-only --diff-filter=d "${firstCommit}" "${lastCommit}"`).toString()
             const files = rawFiles.split('\n').filter(Boolean)
 
             console.log(files)

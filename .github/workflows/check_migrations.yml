@@ -24,8 +24,8 @@ jobs:
             let firstCommit
             let lastCommit
             if (context.eventName === 'push') {
-              firstCommit=context.payload.event.commits[0].id
-              lastCommit=context.payload.event.commits[-1].id
+              firstCommit=context.payload.commits[0].id
+              lastCommit=context.payload.commits[-1].id
             } else if (context.eventName === 'pull_request') {
               firstCommit=context.payload.pull_request.base.sha
               lastCommit=context.payload.pull_request.head.sha

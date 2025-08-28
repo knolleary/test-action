@@ -1,4 +1,4 @@
-name: checki migrations
+name: check migrations
 
 on:
   push:
@@ -21,8 +21,18 @@ jobs:
           script: |
             const { execSync } = require('child_process')
             console.log(context)
-            const { commits } = context.payload.pull_request
-            const rawFiles = execSync(`git diff --name-only HEAD HEAD~${commits}`).toString()
+            let firstCommit
+            let lastCommit
+            if (context.eventName === 'push') {
+              firstCommit='${{ context.payload.event.commits[0].id }}'
+              lastCommit='${{ context.payload.event.commits[-1].id }}'
+            } else if (context.eventName === 'pull_request') {
+              firstCommit='${{ context.payload.pull_request.base.sha }}'
+              lastCommit='${{ context.payload.pull_request.head.sha }}'
+            } else {
+              throw new Error('Unsupported event')
+            }
+            const rawFiles = execSync(`git diff --name-only --diff-filter=d "${firstCommit}~1" "${lastCommit}"`).toString()
             const files = rawFiles.split('\n').filter(Boolean)
 
             console.log(files)

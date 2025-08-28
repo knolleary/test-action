@@ -20,12 +20,12 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process')
-            console.log(context)
+            //console.log(context)
             let firstCommit
             let lastCommit
             if (context.eventName === 'push') {
               firstCommit=context.payload.commits[0][0].id
-              lastCommit=context.payload.commits[0][-1].id
+              lastCommit=context.payload.commits[0][context.payload.commits[0].length - 1].id
             } else if (context.eventName === 'pull_request') {
               firstCommit=context.payload.pull_request.base.sha
               lastCommit=context.payload.pull_request.head.sha

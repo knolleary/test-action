@@ -20,7 +20,7 @@ jobs:
         with:
           script: |
             const { execSync } = require('child_process')
-            console.log(context)
+            //console.log(context)
             let firstCommit
             let lastCommit
             if (context.eventName === 'push') {
@@ -33,6 +33,5 @@ jobs:
               throw new Error('Unsupported event')
             }
             const rawFiles = execSync(`git diff --name-only --diff-filter=d "${firstCommit}" "${lastCommit}"`).toString()
-            const files = rawFiles.split('\n').filter(Boolean)
-
+            const files = rawFiles.split('\n').filter(f => /^forge\/db\/migrations\/2.*\.js$/.test(f))
             console.log(files)
